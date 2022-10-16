@@ -1,11 +1,11 @@
-using System.Runtime.CompilerServices;
+п»їusing System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace ping_pong
 {
     public partial class Form1 : Form
     {
-        //Переменные
+        //РџРµСЂРµРјРµРЅРЅС‹Рµ
         Random random = new Random();
         private int horizontalSpeed = 4;
         private int verticalSpeed = 4;
@@ -18,53 +18,53 @@ namespace ping_pong
             InitializeComponent();
             timer1.Interval = 1000 / fps;
             timer1.Enabled = true;
-            Cursor.Hide(); //Прячем курсор
+            Cursor.Hide(); //РџСЂСЏС‡РµРј РєСѓСЂСЃРѕСЂ
 
-            FormBorderStyle = FormBorderStyle.None; //Убрать все границы
-            /*TopMost = true;*/ // Поверх всего
-            Bounds = Screen.PrimaryScreen.Bounds; //Fullscreen на основном мониторе
+            FormBorderStyle = FormBorderStyle.None; //РЈР±СЂР°С‚СЊ РІСЃРµ РіСЂР°РЅРёС†С‹
+            /*TopMost = true;*/ // РџРѕРІРµСЂС… РІСЃРµРіРѕ
+            Bounds = Screen.PrimaryScreen.Bounds; //Fullscreen РЅР° РѕСЃРЅРѕРІРЅРѕРј РјРѕРЅРёС‚РѕСЂРµ
             WindowState = FormWindowState.Maximized;
 
-            //Экран проигрыша по центру
+            //Р­РєСЂР°РЅ РїСЂРѕРёРіСЂС‹С€Р° РїРѕ С†РµРЅС‚СЂСѓ
             lblLoss.Left = (playGround.Width / 2) - (lblLoss.Width / 2);
             lblLoss.Top = (playGround.Height / 2) - (lblLoss.Height / 2);
 
-            // нахождение игрока 1/10 от высота монитора fullhd 108pixels
+            // РЅР°С…РѕР¶РґРµРЅРёРµ РёРіСЂРѕРєР° 1/10 РѕС‚ РІС‹СЃРѕС‚Р° РјРѕРЅРёС‚РѕСЂР° fullhd 108pixels
             player.Top = playGround.Bottom - (playGround.Bottom / 10);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // Положение игрока = положению курсора, чтобы не вышло за границы отнимаем ширину игрока
+            // РџРѕР»РѕР¶РµРЅРёРµ РёРіСЂРѕРєР° = РїРѕР»РѕР¶РµРЅРёСЋ РєСѓСЂСЃРѕСЂР°, С‡С‚РѕР±С‹ РЅРµ РІС‹С€Р»Рѕ Р·Р° РіСЂР°РЅРёС†С‹ РѕС‚РЅРёРјР°РµРј С€РёСЂРёРЅСѓ РёРіСЂРѕРєР°
             player.Left = Cursor.Position.X - player.Width;
 
-            //Двигаем мяч
+            //Р”РІРёРіР°РµРј РјСЏС‡
             ball.Left += horizontalSpeed;
             ball.Top += verticalSpeed;
 
-            // Коллизия мяча с игроком
+            // РљРѕР»Р»РёР·РёСЏ РјСЏС‡Р° СЃ РёРіСЂРѕРєРѕРј
             if (ball.Bottom >= player.Top && ball.Bottom <= player.Bottom && ball.Left >= player.Left && ball.Right <= player.Right)
             {
-                //Не допускаю скорость больше 14 иначе будет дрынь
+                //РќРµ РґРѕРїСѓСЃРєР°СЋ СЃРєРѕСЂРѕСЃС‚СЊ Р±РѕР»СЊС€Рµ 14 РёРЅР°С‡Рµ Р±СѓРґРµС‚ РґСЂС‹РЅСЊ
                 if (verticalSpeed <= 14 && horizontalSpeed <= 14)
                 {
                     verticalSpeed += 1;
                     horizontalSpeed += 1;
                 }
-                verticalSpeed = -verticalSpeed;// Изменяет направление
-                score += 1;//Игрок отбил, молодец! Получи очко;-;
+                verticalSpeed = -verticalSpeed;// РР·РјРµРЅСЏРµС‚ РЅР°РїСЂР°РІР»РµРЅРёРµ
+                score += 1;//РРіСЂРѕРє РѕС‚Р±РёР», РјРѕР»РѕРґРµС†! РџРѕР»СѓС‡Рё РѕС‡РєРѕ;-;
                 lblScore.Text = $"Score: {score}";
                 playGround.BackColor = setColor();
             }
 
-            //Коллизия мяча с границами игрового поля
+            //РљРѕР»Р»РёР·РёСЏ РјСЏС‡Р° СЃ РіСЂР°РЅРёС†Р°РјРё РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ
             if (ball.Left <= playGround.Left)
             {
-                horizontalSpeed = -horizontalSpeed; //Если мяч врезался в левую стенку, меняй горизонтальное направление 
+                horizontalSpeed = -horizontalSpeed; //Р•СЃР»Рё РјСЏС‡ РІСЂРµР·Р°Р»СЃСЏ РІ Р»РµРІСѓСЋ СЃС‚РµРЅРєСѓ, РјРµРЅСЏР№ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ 
             }
             if (ball.Right >= playGround.Right)
             {
-                horizontalSpeed = -horizontalSpeed; // Минус на минус даёт что? Правильно! Меняет нам направление
+                horizontalSpeed = -horizontalSpeed; // РњРёРЅСѓСЃ РЅР° РјРёРЅСѓСЃ РґР°С‘С‚ С‡С‚Рѕ? РџСЂР°РІРёР»СЊРЅРѕ! РњРµРЅСЏРµС‚ РЅР°Рј РЅР°РїСЂР°РІР»РµРЅРёРµ
             }
             if (ball.Top <= playGround.Top)
             {
@@ -72,13 +72,13 @@ namespace ping_pong
             }
             if (ball.Bottom >= playGround.Bottom)
             {
-                timer1.Enabled = false; //Смэрть, ты проиграл
-                lblLoss.Visible = true; //Окно поражения
+                timer1.Enabled = false; //РЎРјСЌСЂС‚СЊ, С‚С‹ РїСЂРѕРёРіСЂР°Р»
+                lblLoss.Visible = true; //РћРєРЅРѕ РїРѕСЂР°Р¶РµРЅРёСЏ
             }
 
         }
 
-        // Метод, который не допускает одного и того же цвета игрока и заднего плана(на всякий случай)
+        // РњРµС‚РѕРґ, РєРѕС‚РѕСЂС‹Р№ РЅРµ РґРѕРїСѓСЃРєР°РµС‚ РѕРґРЅРѕРіРѕ Рё С‚РѕРіРѕ Р¶Рµ С†РІРµС‚Р° РёРіСЂРѕРєР° Рё Р·Р°РґРЅРµРіРѕ РїР»Р°РЅР°(РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№)
         private Color setColor()
         {
             Color newColor = Color.FromArgb(random.Next(140, 255), random.Next(140, 255), random.Next(140, 255));
@@ -93,11 +93,11 @@ namespace ping_pong
         {
             switch (e.KeyCode)
             {
-                //Выход из игры
+                //Р’С‹С…РѕРґ РёР· РёРіСЂС‹
                 case Keys.Escape:
                     Application.Exit();
                     break;
-                //Рестарт игры
+                //Р РµСЃС‚Р°СЂС‚ РёРіСЂС‹
                 case Keys.R:
                     ball.Top = random.Next(playGround.Height / 2);
                     ball.Left = random.Next(50, playGround.Width - 50);
